@@ -1,0 +1,76 @@
+<html>
+<head>
+  <title>Art / Dev - Motion 2</title>
+  <script src="js/p5.min.js"></script>
+  <script>
+  var IMAGE_WIDTH = 840;    // Don't change this.
+  var IMAGE_HEIGHT = 640;   // Don't change this.
+
+  var particleCount = 666;
+  var particles = [];
+  var particleCounter = 0;
+  var time = 0;
+
+  //=============== DO ALL YOUR WORK HERE =======================
+
+  function setup() {
+    createCanvas(IMAGE_WIDTH, IMAGE_HEIGHT); // don't change this
+    noCursor();
+     for (var i=0; i<particleCount; i++) {
+
+       particles[i] = {
+        //  x:320 + magnitude*cos(angle),
+        //  y:320 + magnitude*sin(angle),
+         r: random(5,12),
+         s: random(0,50),
+         hue: random(0,1)
+        //  x:random(1,640),
+        //  y:random(1,640),
+        };
+     }
+     noStroke()
+     colorMode(HSB, 1)
+  }
+
+  function draw() {
+    fill(.5,0,.4,.4)
+    rect(0,0,width,height)
+    var currentParticle = particles[particleCounter]
+    var speed = random(0,7)
+    var angle = random(0,2*PI)
+    time += .025
+    currentParticle.x = mouseX
+    currentParticle.y = mouseY
+    currentParticle.vx = speed*cos(angle)
+    currentParticle.vy = speed*sin(angle)
+    currentParticle.hue = particleCounter/particleCount//*2*PI/particleCount)
+
+    particleCounter = (particleCounter+1) % particleCount;
+    particles.forEach(calculateParticle)
+    particles.forEach(drawParticle)
+}
+
+  function calculateParticle(particle) {
+    particle.x += particle.vx  // this is the rotation of the particles
+    particle.y += particle.vy
+    particle.vx += .1*particle.vy
+    particle.vy += -.1*particle.vx
+    particle.vy -= .25
+  }
+
+  function drawParticle(particle) {
+    fill(particle.hue,.5,1,.25)
+    ellipse(particle.x,particle.y,particle.r,particle.r)
+  }
+
+  // =============== STOP WORKING HERE ==========================
+
+  </script>
+  <style>
+    body { padding: 0; margin: 5% 0 0; background-color: #666;}
+    canvas { margin: 0 auto; display:block; }
+  </style>
+</head>
+<body>
+</body>
+</html>
